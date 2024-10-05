@@ -1,12 +1,12 @@
 import requests
 
-url = 'https://hidemy.io/ru/demo/'
+url = 'https://hdmn.cloud/ru/demo/'
 
 if 'Ваша электронная почта' in requests.get(url).text:
     
     email = input('Введите электронную почту для получения тестового периода: ')
 
-    response = requests.post('https://hidemy.io/ru/demo/success/', data={
+    response = requests.post('https://hdmn.cloud/ru/demo/success/', data={
         "demo_mail": f"{email}"
     })
 
