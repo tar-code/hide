@@ -2,8 +2,6 @@ import time
 import requests
 from IPython.display import display, HTML
 import ipywidgets as widgets
-import os
-import sys
 
 url = 'https://hdmn.cloud/ru/demo/'
 
@@ -23,8 +21,8 @@ def send_email():
 
                 if 'Ваш код выслан на почту' in response.text:
                     print('Подтвердите e-mail. Проверьте свой почтовый ящик.')
-                    # Отображение кнопки для повторного запроса
-                    display_retry_button()
+                    # Отображение ссылки для повторного запроса
+                    display_retry_link()
                 else:
                     print('Указанная почта не подходит для получения тестового периода.')
             else:
@@ -35,18 +33,13 @@ def send_email():
     except requests.RequestException as e:
         print(f"Ошибка при запросе к сайту: {e}")
 
-def display_retry_button():
-    # Функция для отображения кнопки для повторного выполнения
-    button = widgets.Button(description="Повторить запрос")
-    button.on_click(on_retry_button_click)
-    display(button)
-
-def on_retry_button_click(b):
-    print("Процесс завершен. Ожидаем повторный запуск...")
-    # Ожидаем 5 секунд и затем перезапускаем выполнение
-    time.sleep(5)
-    # Очищаем среду выполнения
-    os.kill(os.getpid(), 9)  # Этот вызов завершит процесс Python и перезапустит среду Colab.
+def display_retry_link():
+    # Функция для отображения ссылки для повторного запроса
+    html = """
+    <a href="javascript:void(0)" onclick="window.location.reload();">Повторить запрос</a>
+    <p>При нажатии на ссылку страница будет обновлена, и можно будет ввести новый email.</p>
+    """
+    display(HTML(html))
 
 def main():
     send_email()
