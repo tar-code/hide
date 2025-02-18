@@ -1,6 +1,6 @@
 import requests
 import re
-from google.colab import runtime  # Импорт для автоматического рестарта
+import os  # Импортируем для завершения среды выполнения
 
 url = 'https://hdmn.cloud/ru/demo/'
 
@@ -21,8 +21,8 @@ try:
             if response.status_code == 200 and 'Ваш код выслан на почту' in response.text:
                 print('✅ \033[1;32mВаш код уже в пути!\033[0m Проверьте свой почтовый ящик.')
 
-                # Перезагрузка среды выполнения
-                runtime.restart_runtime()
+                # Автоматическая перезагрузка среды выполнения
+                os._exit(0)
 
             else:
                 print('⚠️ \033[1;31mУказанная почта не подходит для получения тестового периода.\033[0m')
