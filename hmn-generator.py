@@ -1,29 +1,29 @@
 import requests
 import re
+from google.colab import runtime  # Импорт для автоматического рестарта
 
 url = 'https://hdmn.cloud/ru/demo/'
 
 try:
-    # Отправляем GET-запрос
     response = requests.get(url)
-    response.encoding = 'utf-8'  # Указываем кодировку
+    response.encoding = 'utf-8'
 
-    # Проверяем успешный ответ сервера
     if response.status_code == 200:
         if 'Ваша электронная почта' in response.text:
             email = input('Введите электронную почту для получения тестового периода: ')
 
-            # Проверяем корректность введённого email
             if not re.match(r"[^@]+@[^@]+\.[^@]+", email):
                 print("❌ \033[1;31mНекорректный e-mail. Пожалуйста, введите правильный адрес.\033[0m")
                 exit()
 
-            # Отправляем POST-запрос
             response = requests.post('https://hdmn.cloud/ru/demo/success/', data={"demo_mail": email})
 
-            # Проверяем успешность запроса
             if response.status_code == 200 and 'Ваш код выслан на почту' in response.text:
                 print('✅ \033[1;32mВаш код уже в пути!\033[0m Проверьте свой почтовый ящик.')
+
+                # Перезагрузка среды выполнения
+                runtime.restart_runtime()
+
             else:
                 print('⚠️ \033[1;31mУказанная почта не подходит для получения тестового периода.\033[0m')
         else:
