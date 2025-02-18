@@ -1,6 +1,13 @@
 import requests
 import re
-import os  # Импортируем для завершения среды выполнения
+import time
+from IPython.display import display, Javascript
+
+def restart_colab():
+    """Функция для автоматической перезагрузки среды Google Colab"""
+    display(Javascript("location.reload()"))
+    time.sleep(2)  # Небольшая задержка перед завершением
+    exit()
 
 url = 'https://hdmn.cloud/ru/demo/'
 
@@ -21,8 +28,8 @@ try:
             if response.status_code == 200 and 'Ваш код выслан на почту' in response.text:
                 print('✅ \033[1;32mВаш код уже в пути!\033[0m Проверьте свой почтовый ящик.')
 
-                # Автоматическая перезагрузка среды выполнения
-                os._exit(0)
+                # Автоматическая перезагрузка Colab
+                restart_colab()
 
             else:
                 print('⚠️ \033[1;31mУказанная почта не подходит для получения тестового периода.\033[0m')
